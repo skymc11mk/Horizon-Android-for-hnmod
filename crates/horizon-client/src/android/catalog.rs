@@ -42,8 +42,8 @@ pub fn truncate_player_name(name: &str) -> String {
 #[serde(rename_all = "kebab-case")]
 pub enum RendererMode {
     Vulkan,
-    OpenGl,
     #[default]
+    OpenGl,
     VulkanCompatibility,
 }
 impl RendererMode {
