@@ -2220,7 +2220,7 @@ impl ThemePreset {
     pub fn palette_rgb(self) -> (u32, u32, u32, u32, u32, u32, bool) {
         match self {
             Self::ObsidianViolet | Self::Custom => (
-                0x13111C, 0x1D192B, 0x9A7BFF, 0x161129, 0x1E1638, 0x0E0C16, false,
+                0x0E0C20, 0x1A1632, 0xFFB042, 0x1A1230, 0x3A1E3A, 0x0E0C20, false,
             ),
             Self::CyberCyan => (
                 0x0C131F, 0x152033, 0x38BDF8, 0x0D1B2E, 0x102942, 0x09101B, false,
@@ -2368,13 +2368,13 @@ impl Default for LauncherThemeConfig {
             preset: ThemePreset::ObsidianViolet,
             appearance: ThemeAppearance::Dark,
             background_mode: BackgroundMode::Solid,
-            custom_bg_hex: "#13111C".into(),
-            custom_surface_hex: "#1D192B".into(),
-            custom_accent_hex: "#9A7BFF".into(),
+            custom_bg_hex: "#0E0C20".into(),
+            custom_surface_hex: "#1A1632".into(),
+            custom_accent_hex: "#FFB042".into(),
             gradient_direction: GradientDirection::DiagonalDown,
-            gradient_start_hex: "#1A1333".into(),
-            gradient_mid_hex: "#131A2E".into(),
-            gradient_end_hex: "#0D0B14".into(),
+            gradient_start_hex: "#1A1230".into(),
+            gradient_mid_hex: "#3A1E3A".into(),
+            gradient_end_hex: "#0E0C20".into(),
             gradient_mid_pos: 0.50,
             use_three_stops: true,
         }
