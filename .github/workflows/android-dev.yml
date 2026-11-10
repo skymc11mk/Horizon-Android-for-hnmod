@@ -107,10 +107,10 @@ jobs:
           set -euo pipefail
           git clone https://github.com/horizon-rust/horizon-mixins "$RUNNER_TEMP/hm"
           git -C "$RUNNER_TEMP/hm" checkout e59da9094f0c2fdda6c627fe9eff22dec6a906f0
-          (cd "$RUNNER_TEMP/hm" && cargo fetch --locked && cargo build --locked -p horizon-mixins-cli)
+          (cd "$RUNNER_TEMP/hm" && cargo fetch --locked && CARGO_TARGET_DIR="$RUNNER_TEMP/hm-target" cargo build --locked -p horizon-mixins-cli)
           cp -r hn-mods "$RUNNER_TEMP/hnmods"
           sed -i "s/^horizon_revision = .*/horizon_revision = \"$(git rev-parse HEAD)\"/" "$RUNNER_TEMP"/hnmods/*/horizon-mixin.toml
-          B="$RUNNER_TEMP/hm/target/debug/horizon-mixins"
+          B="$RUNNER_TEMP/hm-target/debug/horizon-mixins"
           "$B" apply --workspace . --mods "$RUNNER_TEMP/hnmods" --out "$RUNNER_TEMP/modded"
           rm -rf hn-mods
           cp -a "$RUNNER_TEMP/modded"/. ./
