@@ -1,0 +1,31 @@
+name: HNMod apply test
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'mods/**'
+      - '.github/workflows/mods-test.yml'
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Rust 1.95.0
+        run: rustup toolchain install 1.95.0 --profile minimal && rustup default 1.95.0
+      - name: Build horizon-mixins (pinned commit)
+        run: |
+          set -euo pipefail
+          git clone https://github.com/horizon-rust/horizon-mixins "$RUNNER_TEMP/hm"
+          git -C "$RUNNER_TEMP/hm" checkout e59da9094f0c2fdda6c627fe9eff22dec6a906f0
+          cd "$RUNNER_TEMP/hm"
+          cargo fetch --locked
+          cargo build --locked -p horizon-mixins-cli
+      - name: Plan and apply mods
+        run: |
+          set -euo pipefail
+          cp -r mods "$RUNNER_TEMP/hnmods"
+          rm -rf mods
+          B="$RUNNER_TEMP/hm/target/debug/horizon-mixins"
+          "$B" plan --workspace . --mods "$RUNNER_TEMP/hnmods" --out "$RUNNER_TEMP/plan.json"
+          "$B" apply --workspace . --mods "$RUNNER_TEMP/hnmods" --out "$RUNNER_TEMP/modded"
+          diff -rq . "$RUNNER_TEMP/modded" -x .git | head -20 || true
