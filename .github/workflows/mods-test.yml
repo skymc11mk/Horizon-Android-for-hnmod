@@ -24,6 +24,7 @@ jobs:
         run: |
           set -euo pipefail
           cp -r hn-mods "$RUNNER_TEMP/hnmods"
+          sed -i "s/^horizon_revision = .*/horizon_revision = \"$(git rev-parse HEAD)\"/" "$RUNNER_TEMP"/hnmods/*/horizon-mixin.toml
           B="$RUNNER_TEMP/hm/target/debug/horizon-mixins"
           "$B" plan --workspace . --mods "$RUNNER_TEMP/hnmods" --out "$RUNNER_TEMP/plan.json"
           "$B" apply --workspace . --mods "$RUNNER_TEMP/hnmods" --out "$RUNNER_TEMP/modded"
