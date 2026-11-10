@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - 'mods/**'
+      - 'hn-mods/**'
       - '.github/workflows/mods-test.yml'
 jobs:
   apply:
@@ -23,8 +23,7 @@ jobs:
       - name: Plan and apply mods
         run: |
           set -euo pipefail
-          cp -r mods "$RUNNER_TEMP/hnmods"
-          rm -rf mods
+          cp -r hn-mods "$RUNNER_TEMP/hnmods"
           B="$RUNNER_TEMP/hm/target/debug/horizon-mixins"
           "$B" plan --workspace . --mods "$RUNNER_TEMP/hnmods" --out "$RUNNER_TEMP/plan.json"
           "$B" apply --workspace . --mods "$RUNNER_TEMP/hnmods" --out "$RUNNER_TEMP/modded"
